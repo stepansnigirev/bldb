@@ -8,16 +8,17 @@ import math
 import os
 
 class DB_PREFIX:
-    COIN = b'C'
-    COINS = b'c'
-    BLOCK_FILES = b'f'
-    TXINDEX = b't'
-    BLOCK_INDEX = b'b'
-    BEST_BLOCK = b'B'
-    HEAD_BLOCKS = b'H'
-    FLAG = b'F'
-    REINDEX_FLAG = b'R'
-    LAST_BLOCK = b'l'
+    COIN = b"C"
+    COINS = b"c"
+    BLOCK_FILES = b"f"
+    TXINDEX = b"t"
+    BLOCK_INDEX = b"b"
+    BEST_BLOCK = b"B"
+    HEAD_BLOCKS = b"H"
+    FLAG = b"F"
+    REINDEX_FLAG = b"R"
+    LAST_BLOCK = b"l"
+    OBFUSCATION_KEY = b"\x0e\x00obfuscate_key"
 
 def deobfuscate(utxo, obfuscation_key=None):
     # no obfuscation key
@@ -139,10 +140,9 @@ if __name__ == '__main__':
 
     db = plyvel.DB(chainstate_path, compression=None)
     # load obfuscation key from the DB
-    obfuscation_key = db.get(b"\x0e\x00obfuscate_key")
+    obfuscation_key = db.get(DB_PREFIX.OBFUSCATION_KEY)
     if obfuscation_key is not None:
         obfuscation_key = obfuscation_key[1:]
-        print(obfuscation_key.hex())
 
     # first 10 utxos
     i = 0
